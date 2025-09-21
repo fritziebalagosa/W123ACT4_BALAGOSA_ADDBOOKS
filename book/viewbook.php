@@ -3,7 +3,7 @@ require_once '../classes/database.php';
 require_once '../classes/books.php';
 
 $productObj = new Books();
-$books = $productObj->getAllBooks(); // we’ll add this method in Books class
+$books = $productObj->getAllBooks(); 
 ?>
 
 <!DOCTYPE html>
