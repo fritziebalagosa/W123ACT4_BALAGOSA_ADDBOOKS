@@ -38,7 +38,42 @@ class Books {
     $sql = "SELECT title, author, genre, publication_year FROM books ORDER BY title ASC";
     $query = $this->db->prepare($sql);
     $query->execute();
-    return $query->fetchAll(PDO::FETCH_ASSOC);
+    return $query->fetchAll();
+    }
+
+    public function searchBooks($search) {
+        $query = $this->db->prepare("SELECT * FROM books WHERE title LIKE :search"); 
+        $searchTerm = '%' . $search . '%';
+        $query->bindParam(':search', $searchTerm);  $query->execute(); 
+        $books = $query->fetchAll(); 
+        return $books;
+    }
+
+    public function getBookByTitle($title) {
+        $sql = "SELECT * FROM books WHERE title = :title";
+        $query = $this->db->prepare($sql); 
+        $query->bindParam(":title", $title); 
+        $query->execute(); 
+        return $query->fetch();
+    }
+
+    public function updateBook($oldTitle, $newTitle, $author, $genre, $publication_year) {
+        $sql = "UPDATE books SET title = :newTitle, author = :author, genre = :genre, publication_year = :publication_year 
+                WHERE title = :oldTitle";
+        $query = $this->db->prepare($sql);
+        $query->bindParam(":newTitle", $newTitle);
+        $query->bindParam(":author", $author);
+        $query->bindParam(":genre", $genre); 
+        $query->bindParam(":publication_year", $publication_year);
+        $query->bindParam(":oldTitle", $oldTitle);
+        return $query->execute();
+    }
+      
+   public function deleteBook($title) {
+        $sql = "DELETE FROM books WHERE title = :title";
+        $query = $this->db->prepare($sql);
+        $query->bindParam(':title', $title);
+        return $query->execute();
     }
 
 
