@@ -2,8 +2,19 @@
 require_once '../classes/database.php';
 require_once '../classes/books.php';
 
+
+$booktObj = new Books();
+$search = "";
+if (isset($_GET['search'])) {
+    $search = trim($_GET['search']);
+    $books = $booktObj->searchBooks($search);
+} else {
+    $books = $booktObj->getAllBooks();
+}
+=======
 $productObj = new Books();
 $books = $productObj->getAllBooks(); 
+
 ?>
 
 <!DOCTYPE html>
@@ -137,6 +148,56 @@ $books = $productObj->getAllBooks();
         .btn-secondary:hover {
             background-color: #4b5563;
         }
+
+        .search-bar {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 1rem;
+        }
+
+        .search-bar form {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .search-bar input[type="text"] {
+            flex: 1;
+            min-width: 250px;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            background-color: #ffffff;
+        }
+
+        .search-bar input[type="text"]:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .search-bar input[type="text"]::placeholder {
+            color: #94a3b8;
+        }
+
+        /* Fixed button sizing to ensure consistent dimensions */
+        .search-bar .btn {
+            min-width: 100px;
+            height: 48px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            white-space: nowrap;
+            box-sizing: border-box;
+        }
+
+        .search-bar .btn-secondary {
+            min-width: 100px;
+            height: 48px;
+        }
     </style>
 </head>
 <body>
@@ -144,6 +205,15 @@ $books = $productObj->getAllBooks();
         <div class="header">
             <h1>Book Library</h1>
             <p>Manage your book collection</p>
+        </div>
+
+        <div class="search-bar">
+            <form method="get" action="viewbook.php">
+                <input type="text" name="search" placeholder="Search books..." 
+                    value="<?php echo htmlspecialchars($search); ?>">
+                <button type="submit" class="btn">Search</button>
+                <a href="viewbook.php" class="btn btn-secondary">Reset</a>
+            </form>
         </div>
 
         <div class="books-card">
@@ -160,6 +230,7 @@ $books = $productObj->getAllBooks();
                                 <th>Author</th>
                                 <th>Genre</th>
                                 <th>Publication Year</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -169,6 +240,12 @@ $books = $productObj->getAllBooks();
                                     <td><?php echo htmlspecialchars($book['author']); ?></td>
                                     <td><?php echo htmlspecialchars($book['genre']); ?></td>
                                     <td><?php echo htmlspecialchars($book['publication_year']); ?></td>
+                                    <td>
+                                        <a href="editbook.php?title=<?php echo urlencode($book['title']); ?>" class="btn btn-secondary">Edit</a>
+                                        <a href="deletebook.php?title=<?php echo urlencode($book['title']); ?>" class="btn btn-secondary"
+                                        onclick="return confirm('Are you sure you want to delete <?php echo htmlspecialchars($book['title']); ?>?');">
+                                        Delete</a>
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>

@@ -50,8 +50,6 @@ if($_SERVER["REQUEST_METHOD"]== "POST") {
                 $message = "<div class='alert error'>Error: Failed to submit book.</div>";
                 }
                 echo $message;
-
-
         }
     }
 }
@@ -63,9 +61,8 @@ if($_SERVER["REQUEST_METHOD"]== "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Books</title>
-    <!-- Updated CSS to match the exact design from the image -->
     <style>
-        * {
+            * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -241,11 +238,9 @@ if($_SERVER["REQUEST_METHOD"]== "POST") {
             background: #f9fafb;
             border-color: #9ca3af;
         }
-
-    </style>
+</style>
 </head>
 <body>
-    <!-- Updated HTML structure to match the design -->
     <div class="container">
         <div class="header">
             <h1>Add New Book</h1>
