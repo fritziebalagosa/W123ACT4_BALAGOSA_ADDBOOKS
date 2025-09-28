@@ -2,6 +2,7 @@
 require_once '../classes/database.php';
 require_once '../classes/books.php';
 
+
 $booktObj = new Books();
 $search = "";
 if (isset($_GET['search'])) {
@@ -10,6 +11,10 @@ if (isset($_GET['search'])) {
 } else {
     $books = $booktObj->getAllBooks();
 }
+=======
+$productObj = new Books();
+$books = $productObj->getAllBooks(); 
+
 ?>
 
 <!DOCTYPE html>
